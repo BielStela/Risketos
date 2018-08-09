@@ -11,7 +11,7 @@ class Risk():
     Risk base class. 
     '''
 
-    def __init__(self, players: List[str]) -> None:
+    def __init__(self, players: int) -> None:
         
         self.board = Board()
         self.region_map = self.board.regions
