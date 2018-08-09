@@ -1,12 +1,12 @@
 NORTH AMERICA:
   - Alaska
-  - Alberta (Western Canada)
+  - Alberta
   - Central America
   - Eastern United States
   - Greenland
   - Northwest Territory
-  - Ontario (Central Canada)
-  - Quebec (Eastern Canada)
+  - Ontario
+  - Quebec
   - Western United States
 
 EUROPE:
@@ -15,7 +15,7 @@ EUROPE:
   - Northern Europe
   - Scandinavia
   - Southern Europe
-  - Ukraine (Eastern Europe, Russia)
+  - Ukraine
   - Western Europe
 
 SOUTH AMERICA:
@@ -25,7 +25,7 @@ SOUTH AMERICA:
   - Venezuela
 
 AFRICA:
-  - Congo (Central Africa)
+  - Congo
   - East Africa
   - Egypt
   - Madagascar
@@ -33,15 +33,15 @@ AFRICA:
   - South Africa
 
 ASIA:
-  - Afghanistan[note 2]
+  - Afghanistan
   - China
-  - India (Hindustan)
+  - India
   - Irkutsk
   - Japan
   - Kamchatka
-  - Middle East[note 1]
+  - Middle East
   - Mongolia
-  - Siam (Southeast Asia)
+  - Siam
   - Siberia
   - Ural
   - Yakutsk

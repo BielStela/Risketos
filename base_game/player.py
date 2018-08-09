@@ -3,18 +3,21 @@ class Player():
 
     def __init__(self, player_name: str, armies: dict, objective):
         raise NotImplementedError
+
         self.player_name = player_name
         self.armies = armies
         
-        self.objective = 
+        self.objective = None
 
-    def ressuply_troops(self):
+        self.cards = []
+
+    def ressuply_troops(self, troops: dict):
         pass
     
-    def attack(self):
+    def attack(self, origin: str, target: str, n_troops: int):
         pass
     
-    def fortify(self):
+    def fortify(self, origin: str, target: str, n_troops: int):
         pass
     
     def pickup_card(self):
