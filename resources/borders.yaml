@@ -1,0 +1,8 @@
+Continents:
+  - ('EUROPE', 'ASIA')
+  - ('EUROPE', 'AFRICA')
+  - ('AFRICA', 'SOUTH AMERICA')
+  - ('SOUTH AMERICA', 'NORTH AMERICA')
+  - ('NORTH AMERICA', 'EUROPE')
+  - ('NORTH AMERICA', 'ASIA')
+  - ('ASIA', 'OCEANIA')
