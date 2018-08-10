@@ -2,8 +2,8 @@ from collections import namedtuple
 import random
 from typing import List, Dict 
 
-from base_game.map import Board 
-from base_game.player import Player
+from risk.base_game.map import Board 
+
 
 class TerritoryDeck():
 

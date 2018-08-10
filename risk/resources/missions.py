@@ -1,7 +1,6 @@
 from typing import List
 
-from base_game.player import Player
-
+# from risk.base_game.player import Player
 
 """
 Dict of mission functions. Every mission is a function assignet to a player.
@@ -11,32 +10,32 @@ assigns True to .winner property of the plaer
 """
 
 # base mision funcs
-def _eliminate_player_mission(player: Player, color: str):
+def _eliminate_player_mission(player, target_color: str):
     """
     Destroy all BLUE troops. 
     if you are blue player, occupy 24 territories 
     """
 
-    if not isinstance(player, Player):
-        raise ValueError(f"{player} must be `Player` class")
+    # if not isinstance(player, Player):
+    #     raise ValueError(f"{player} must be `Player` class")
 
-    if player.color == color:
+    if player.color == target_color:
         # occupy 24 territories
         if len(player.territories) == 24:
             player.wins()
         else:
             pass
     
-    elif color in player.eliminated_players:
+    elif target_color in player.eliminated_players:
         player.wins()
 
-def _conquer_continent_mission(player: Player, targets: List[str]):
+def _conquer_continent_mission(player, targets: List[str]):
     """
     Check if player occupies continents in mission
     """
-    
-    if not isinstance(player, Player):
-        raise ValueError(f"{player} must be `Player` class")
+
+    # if not isinstance(player, Player):
+    #     raise ValueError(f"{player} must be `Player` class")
 
     if all(target in player.continents for target in targets):
         player.wins()
@@ -132,4 +131,4 @@ MISSIONS_DICT = {
     'mission8' : mission8,
     'mission9' : mission9,
     'mission10' : mission10,
-}
+    }
