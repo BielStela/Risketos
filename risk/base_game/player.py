@@ -1,5 +1,5 @@
 from risk.resources.decks import TerritoryDeck
-from risk.resources.missions import MISSIONS_DICT
+from risk.resources.missions import _MISSIONS_DICT
 
 class Player():
     """ Player base class """
@@ -8,17 +8,27 @@ class Player():
         # some safety checks
         avail_colors = 'BLUE RED GREEN BLACK YELLOW PURPLE'.split()
         if color not in avail_colors:
-            raise ValueError(f'color {color} Not valid, expecte: {avail_colors}')
+            raise ValueError(f'color {color} not valid, expected: {avail_colors}')
        
 
         self.player_name = player_name
         self.color = color
         self.armies = armies
-        self.mission = MISSIONS_DICT[mission] # pass own instance of player
+        self._mission = _MISSIONS_DICT[mission] # pass own instance of player
         self.winner = False
         self.alive = True
         self.territ_cards = []
         self.eliminated_players = []
+    
+    def __str__(self):
+        s = (f'Name: {self.player_name}\n'
+             f'Color: {self.color}\n'
+             f'Mission: {self.show_mission()}\n')
+        return s
+    
+    def __repr__(self):
+        s = f'Player({self.player_name}, {self.color})'
+        return s
         
     def ressuply_troops(self, troops: dict):
         """
@@ -39,7 +49,7 @@ class Player():
         """
         pass
     
-    def pickup_card(self, deck: TerritoryDeck):
+    def pickup_card(self, deck: TerritoryDeck) -> None:
         """
         Pick up a territory card from current game `TerritoryDeck` instance
         after winning turn
@@ -50,7 +60,10 @@ class Player():
         """
         Runs mission function and changes the status of winning
         """
-        self.mission(self)
+        self._mission(self)
+    
+    def show_mission(self) -> str:
+        return self._mission.__doc__
 
     def wins(self):
         self.winner = True
