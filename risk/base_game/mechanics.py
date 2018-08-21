@@ -1,29 +1,30 @@
 from random import choice
 
-def battle(attackers: int, defenders: int, n_attack_dices: int, n_defend_dices: int):
-    if n_attack_dices > 3 or n_attack_dices <= 0:
+def battle(n_attack_dices: int=3, n_defend_dices: int=2):
+    nad = n_attack_dices
+    ndd = n_defend_dices
+
+    if nad > 3 or nad <= 0:
         raise ValueError('invalid number of attack dices. Must be between [1,3]')
     
-    if n_defend_dices > 2 or n_defend_dices <= 0:
+    if ndd > 2 or ndd <= 0:
         raise ValueError('invalid number of defender dices. Must be 1 or 2')
-    
+     
     DICE = range(1,7)
-    
-    attack_throw = [choice(DICE) for _ in range(n_attack_dices)]
-    defence_throw = [choice(DICE) for _ in range(n_defend_dices)]
 
-    attack_largest = _n_largest(attack_throw, n_defend_dices)
+    attack_throw = [choice(DICE) for _ in range(nad)]
+    defence_throw = [choice(DICE) for _ in range(ndd)]
 
-    res = [a > b for a, b in zip(attack_largest, defence_throw)]
+    attack_largest = _n_largest(attack_throw, ndd)
+
+    batt_res = [a > b for a, b in zip(attack_largest, defence_throw)]
 
     # defender loses
-    defenders -= sum(res)
+    defenders_lost = sum(batt_res)
     # attacker loses
-    attackers -= sum([1-val for val in res])
+    attackers_lost = sum([1-val for val in batt_res])
 
-    return attackers, defenders
+    return defenders_lost, attackers_lost
 
 def _n_largest(iterable, n):
-    if len(iterable) == 1:
-        return max(iterable)
     return sorted(iterable, reverse=True)[:n]
