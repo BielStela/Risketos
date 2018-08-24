@@ -17,14 +17,16 @@ def battle(n_attack_dices: int=3, n_defend_dices: int=2):
 
     attack_largest = _n_largest(attack_throw, ndd)
 
-    batt_res = [a > b for a, b in zip(attack_largest, defence_throw)]
+    battle_resu = [a > b for a, b in zip(attack_largest, defence_throw)]
 
     # defender loses
-    defenders_lost = sum(batt_res)
-    # attacker loses
-    attackers_lost = sum([1-val for val in batt_res])
+    defenders_lost = sum(battle_resu)
+    # attacker loses. inerverse battle result
+    attackers_lost = sum([1-val for val in battle_resu])
 
     return defenders_lost, attackers_lost
 
 def _n_largest(iterable, n):
     return sorted(iterable, reverse=True)[:n]
+
+

@@ -2,8 +2,6 @@ from collections import namedtuple
 import random
 from typing import List, Dict 
 
-from risk.base_game.map import Board 
-
 
 class TerritoryDeck():
 
@@ -15,8 +13,9 @@ class TerritoryDeck():
 
     def _init_cards(self) -> List[namedtuple]:
         """ returns a shufled deck of territory cards"""
+        from risk.base_game.map import Board
         
-        countries =  Board([]).countries
+        countries =  Board([]).territories
         #infantry
         countries_1 = ['Venezuela', 'Siam', 'Peru', 'New Guinea',
                        'Mongolia', 'Middle East', 'Kamchatka', 'Iceland', 

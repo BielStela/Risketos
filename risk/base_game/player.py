@@ -1,25 +1,30 @@
 from risk.resources.decks import TerritoryDeck
 from risk.resources.missions import _MISSIONS_DICT
+from risk.base_game.utils import battle
 
 class Player():
     """ Player base class """
 
-    def __init__(self, player_name: str='', armies: dict={}, color='', mission: str=''):
+    def __init__(self, player_name: str, territories: list, color: str, mission: str, board, init_armies: int):
         # some safety checks
         avail_colors = 'BLUE RED GREEN BLACK YELLOW PURPLE'.split()
         if color not in avail_colors:
             raise ValueError(f'color {color} not valid, expected: {avail_colors}')
        
-
+        self.board = board
         self.player_name = player_name
         self.color = color
-        self.armies = armies
-        self._mission = _MISSIONS_DICT[mission] # pass own instance of player
+
+        self.territories = territories
+        self.init_armies = init_armies
+        
+        self._mission = _MISSIONS_DICT[mission] 
         self.winner = False
         self.alive = True
         self.territ_cards = []
         self.eliminated_players = []
-    
+        self.n_troops = 0
+
     def __str__(self):
         s = (f'Name: {self.player_name}\n'
              f'Color: {self.color}\n'
@@ -30,12 +35,33 @@ class Player():
         s = f'Player({self.player_name}, {self.color})'
         return s
         
-    def ressuply_troops(self, troops: dict):
+    def get_reinforcement_troops(self):
         """
-        Given the number of occupied territories, continets,
-        add troops to selected territories. 
+        Given the number of occupied territories and continets,
+        get troops for ressuply. 
         """
-        pass
+        extra_troops_terr = len(self.territories) // 3
+
+        continent_owned = []
+        for cont, terr in self.board.regions.items():
+            if set(terr) == set(self.territories):
+                continent_owned.append(cont)
+        
+        continent_troops = {
+            'ASIA':7,
+            'NORTH AMERICA':5,
+            'EUROPE':5,
+            'AFRICA':3,
+            'AUSTRALIA':2,
+            'SOUTH AMERICA':2
+        }
+
+        extra_troops_cont = sum([continent_troops[cont] for cont in continent_owned])
+
+        reinforcements = extra_troops_cont + extra_troops_terr
+        return reinforcements
+    
+    
     
     def attack(self, origin: str, target: str, n_troops: int):
         """
