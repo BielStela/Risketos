@@ -71,4 +71,8 @@ class Board():
         return list(neightbours.index)
     
     def init_players(self):
+        """
+        Update the record of what players owns every territory
+        """
+        pass
         

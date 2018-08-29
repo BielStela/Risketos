@@ -16,6 +16,8 @@ class Player():
         self.color = color
 
         self.territories = territories
+        self.continets = {} # TODO
+
         self.init_armies = init_armies
         
         self._mission = _MISSIONS_DICT[mission] 
@@ -34,7 +36,8 @@ class Player():
     def __repr__(self):
         s = f'Player({self.player_name}, {self.color})'
         return s
-        
+    
+
     def get_reinforcement_troops(self):
         """
         Given the number of occupied territories and continets,

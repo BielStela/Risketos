@@ -4,7 +4,7 @@ from collections import defaultdict
 from collections import Counter
 from typing import List, Dict 
 
-from risk.base_game.map import Board
+from risk.base_game.board import Board
 from risk.base_game.player import Player
 from risk.resources.decks import TerritoryDeck
 from risk.resources.missions import _MISSIONS_DICT
@@ -69,6 +69,7 @@ class Risk():
         # shuffled territories
         territories = self.board.territories
         shuffle(territories)
+        # split the shuffled terrs in chunks for each player
         chunk_size = len(territories) // n_players
         chunks = [territories[i:i+chunk_size] for i in range(0, len(territories), chunk_size)]
         

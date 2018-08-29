@@ -1,2 +1,2 @@
-from .map import Board
+from .board import Board
 from .player import Player
