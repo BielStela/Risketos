@@ -24,11 +24,10 @@ class Risk():
 
         # instances
         self.board = Board()
-        # self.region_map = self.board.continents
         # make players and populate board
         self.players = self.init_players(n_players)
         # put player and armies in board intance
-        self.init_players_in_board(self.players, self.board)
+        self.populate_players_board(self.players, self.board)
 
     def _check_params(self):
         """
@@ -52,6 +51,10 @@ class Risk():
         """
         new_map = dict(Counter(self.global_map).update(armies))
         self.global_map.update(new_map)
+
+    # -------------------------------------------------------
+    # GAME STARTS
+    # -------------------------------------------------------
 
     def init_players(self, n_players):
         """
@@ -95,19 +98,38 @@ class Risk():
 
         return players
 
-    def init_players_in_board(self, players, board, init: str='random'):
-        """
-        Modifies player_board dict from the Board() instance addind 
-        player instance to the corresponding territory entry 
-        """
-        territory_board = self.board.player_board
-        for player in self.players:
-            for territory in territory_board.keys():
-                if territory in player.territories:
-                    territory_board[territory]['player'] = player
+    # -------------------------------------------------------
+    # PLACE PLAYERS IN BOARD
+    # -------------------------------------------------------
 
-        return territory_board
-    
+    def populate_players_board(self, players, board):
+        """
+        Modifies player_board dict from the Board() instance adding
+        player instance to the corresponding territory entry
+        """
+        board = self.board.player_board
+        for player in self.players:
+            for territory in board.keys():
+                if territory in player.territories:
+                    board[territory]['player'] = player
+
+        return board
+
+    # -------------------------------------------------------
+    # PLACE TROOPS
+    # -------------------------------------------------------
+
+    def populate_player_troops(self, players: Player,
+                               board: Board,
+                               init: str='random'):
+        """
+        WIP
+        Populates player territories with troops.
+        """
+        board = self.board.player_board
+        for player in self.players:
+            pass
+
     # # -----------------------------------------------------
 
     # def add_player(self, player: str='', armies: dict={}) -> None:

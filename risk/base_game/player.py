@@ -41,6 +41,12 @@ class Player():
         s = f'Player({self.name}, {self.color})'
         return s
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
     def get_reinforcement_troops(self):
         """
         Given the number of occupied territories and continets,
