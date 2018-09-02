@@ -1,4 +1,4 @@
-from random import sample, choice, shuffle
+from random import sample, choice, shuffle, randint
 from itertools import combinations
 from collections import defaultdict
 from collections import Counter
@@ -25,9 +25,10 @@ class Risk():
         # instances
         self.board = Board()
         # make players and populate board
-        self.players = self.init_players(n_players)
+        self.players = self._init_players(n_players)
         # put player and armies in board intance
-        self.populate_players_board(self.players, self.board)
+        self._init_board()
+        self._populate_board_troops()
 
     def _check_params(self):
         """
@@ -56,7 +57,7 @@ class Risk():
     # GAME STARTS
     # -------------------------------------------------------
 
-    def init_players(self, n_players):
+    def _init_players(self, n_players):
         """
         Creates n players with a random mission, random army distribution
         according to board rules (No need to use terrytory deck), and
@@ -102,16 +103,17 @@ class Risk():
     # PLACE PLAYERS IN BOARD
     # -------------------------------------------------------
 
-    def populate_players_board(self, players, board):
-        """
+    def _init_board(self):
+        """ Adds players to the board
         Modifies player_board dict from the Board() instance adding
-        player instance to the corresponding territory entry
+        player instance to the corresponding territory entry and 1 troop
         """
         board = self.board.player_board
         for player in self.players:
             for territory in board.keys():
                 if territory in player.territories:
                     board[territory]['player'] = player
+                    board[territory]['troops'] = player.place_troops('init', 1)
 
         return board
 
@@ -119,16 +121,28 @@ class Risk():
     # PLACE TROOPS
     # -------------------------------------------------------
 
-    def populate_player_troops(self, players: Player,
-                               board: Board,
-                               init: str='random'):
+    def _populate_board_troops(self, init: str='random'):
         """
         WIP
         Populates player territories with troops.
         """
-        board = self.board.player_board
-        for player in self.players:
-            pass
+        # check params
+        if init not in ('random', 'user'):
+            raise ValueError("init must be 'random' or 'user'")
+
+        if init == 'random':
+            
+            board = self.board.player_board
+            # first pasd to put 1 troop in all the territories
+            for player in self.players:
+                for territory in board.values():
+                    if player == territory['player']:
+                        troops = randint(0, player.troops_to_distribute)
+                        territory['troops'] += player.place_troops('init',troops)
+                        
+        else:
+            raise NotImplementedError
+
 
     # # -----------------------------------------------------
 

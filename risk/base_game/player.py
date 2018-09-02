@@ -15,7 +15,7 @@ class Player():
             raise ValueError(
                 f'color {color} not valid, expected: {avail_colors}')
 
-        self.board = board
+        self.__board = board  #game instance of board
         self.name = name
         self.color = color
 
@@ -23,13 +23,15 @@ class Player():
         self.continets = {}  # TODO
 
         self.init_troops = init_troops
+        # var to modify when distributing the troops 
+        self.troops_to_distribute = init_troops
 
         self._mission = _MISSIONS_DICT[mission]
         self.winner = False
         self.alive = True
         self.territ_cards = []
         self.eliminated_players = []
-        self.n_troops = 0
+        self.n_troops = 0  # TOTAL of troops
 
     def __str__(self):
         s = (f'Name: {self.name}\n'
@@ -47,15 +49,28 @@ class Player():
         else:
             return False
 
+    def place_troops(self,phase: str, n: int) -> int:
+        """Draws n units from reservoir.
+        "init" from init troops copy or "reinforce" for reinforcement phase
+        """
+        if phase == 'init':
+            self.troops_to_distribute -= n
+            return n
+
+        if phase == 'reinforce':
+            raise NotImplementedError
+
     def get_reinforcement_troops(self):
         """
         Given the number of occupied territories and continets,
         get troops for ressuply. 
+
+        Uses the game instance of Board()
         """
         extra_troops_terr = len(self.territories) // 3
 
         continent_owned = []
-        for cont, terr in self.board.regions.items():
+        for cont, terr in self.__board.regions.items():
             if set(terr) == set(self.territories):
                 continent_owned.append(cont)
 
