@@ -29,6 +29,7 @@ class Risk():
         # put player and armies in board intance
         self._init_board()
         self._populate_board_troops()
+        self.start(self.players)
 
     def _check_params(self):
         """
@@ -57,7 +58,7 @@ class Risk():
     # GAME STARTS
     # -------------------------------------------------------
 
-    def _init_players(self, n_players):
+    def _init_players(self, n_players) -> list:
         """
         Creates n players with a random mission, random army distribution
         according to board rules (No need to use terrytory deck), and
@@ -103,7 +104,7 @@ class Risk():
     # PLACE PLAYERS IN BOARD
     # -------------------------------------------------------
 
-    def _init_board(self):
+    def _init_board(self) -> Board:
         """ Adds players to the board
         Modifies player_board dict from the Board() instance adding
         player instance to the corresponding territory entry and 1 troop
@@ -121,7 +122,7 @@ class Risk():
     # PLACE TROOPS
     # -------------------------------------------------------
 
-    def _populate_board_troops(self, init: str='random'):
+    def _populate_board_troops(self, init: str='random') -> None:
         """
         WIP
         Populates player territories with troops.
@@ -144,7 +145,36 @@ class Risk():
             raise NotImplementedError
 
 
-    # # -----------------------------------------------------
+    # -------------------------------------------------------
+    # GAME FLOW
+    # -----------------------------------------------------
+
+    def start(self, players: List[Player]) -> None:
+        """
+        Starts the game with a player loop
+        """
+        for player in players:  # loop controling the whole game?
+            print(f'>>> Player {player.color} turn')
+            # reinforce troops
+            n_troops = player.get_reinforcement_troops()
+            print(f'player has {n_troops} units ready to be send to the front\n')
+            
+            keep_playing = True
+            while keep_playing:
+                print('Where do you want to place the reinforcements?\n')
+                print(f'{player.distribution}')
+                places = input()
+                print('How many troops?')
+                ntroops_in = input() 
+                player.fortify()
+            # attack , loop ti player stops attacking
+            # redistribute
+
+
+
+
+
+
 
     # def add_player(self, player: str='', armies: dict={}) -> None:
     #     """

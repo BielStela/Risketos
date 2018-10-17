@@ -1,7 +1,7 @@
 from random import choice
 
 
-def battle(n_attack_dices: int=3, n_defend_dices: int=2):
+def dice_battle(n_attack_dices: int=3, n_defend_dices: int=2):
     nad = n_attack_dices
     ndd = n_defend_dices
 
@@ -19,7 +19,7 @@ def battle(n_attack_dices: int=3, n_defend_dices: int=2):
 
     attack_largest = _n_largest(attack_throw, ndd)
 
-    battle_resu = [a > b for a, b in zip(attack_largest, defence_throw)]
+    battle_resu = [attk > deff for attk, deff in zip(attack_largest, defence_throw)]
 
     # defender loses
     defenders_lost = sum(battle_resu)

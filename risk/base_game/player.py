@@ -1,6 +1,6 @@
 from risk.resources.decks import TerritoryDeck
 from risk.resources.missions import _MISSIONS_DICT
-from risk.base_game.utils import battle
+from risk.base_game.utils import dice_battle
 
 
 class Player():
@@ -15,16 +15,18 @@ class Player():
             raise ValueError(
                 f'color {color} not valid, expected: {avail_colors}')
 
-        self.__board = board  #game instance of board
+        self.__board = board  # game instance of board
+
         self.name = name
         self.color = color
 
         self.territories = territories
-        self.continets = {}  # TODO
+        self.continets = []  # TODO
+        self._distribution = {}  # territory: troops
 
         self.init_troops = init_troops
-        # var to modify when distributing the troops 
-        self.troops_to_distribute = init_troops
+        
+        self.troops_to_distribute = init_troops  # counter
 
         self._mission = _MISSIONS_DICT[mission]
         self.winner = False
@@ -49,9 +51,30 @@ class Player():
         else:
             return False
 
-    def place_troops(self,phase: str, n: int) -> int:
+    @property
+    def distribution(self):
+        """Builds the troops distribution dictionary"""
+
+        board = self.__board.player_board
+
+        dist = dict()
+        for terr, pdict in board.items():
+            if pdict['player'].name == self.name:
+                dist[terr] = pdict['troops']
+
+        self._distribution = dist
+        return self._distribution
+
+    @distribution.setter
+    def distribution(self, new_distribution):
+        """
+        Updates distribution dict
+        """
+        self._distribution.update(new_distribution)
+
+    def place_troops(self, phase: str, n: int) -> int:
         """Draws n units from reservoir.
-        "init" from init troops copy or "reinforce" for reinforcement phase
+        "init" from init_troops copy or "reinforce" for reinforcement phase
         """
         if phase == 'init':
             self.troops_to_distribute -= n
@@ -60,7 +83,7 @@ class Player():
         if phase == 'reinforce':
             raise NotImplementedError
 
-    def get_reinforcement_troops(self):
+    def get_reinforcement_troops(self) -> int:
         """
         Given the number of occupied territories and continets,
         get troops for ressuply. 
@@ -70,8 +93,8 @@ class Player():
         extra_troops_terr = len(self.territories) // 3
 
         continent_owned = []
-        for cont, terr in self.__board.regions.items():
-            if set(terr) == set(self.territories):
+        for cont, terr in self.__board.continents.items():
+            if set(terr).issubset(self.territories):
                 continent_owned.append(cont)
 
         continent_troops = {

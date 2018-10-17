@@ -81,9 +81,8 @@ class Board:
 
     def init_player_board(self) -> dict:
         """
-        Creates namedtuple structure with territories, player
+        Creates dict with territories, player
         and armies to keep track of the status of the game
-
         """
         # territory = namedtuple('Territory', ['name', 'player', 'troops'])
 
